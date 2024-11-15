@@ -142,6 +142,9 @@ export default function Game() {
 
     if (playerHand.length > 1) {
       chooseThreeCards();
+    } else {
+      // Deploy the algorithm!!!
+      fetch(`/api?wonTricks=${tricksWon}`);
     }
   };
   
