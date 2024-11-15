@@ -26,6 +26,7 @@ export default function Game() {
   const [pool, setPool] = useState(cards);
   const [playerHand, setPlayerHand] = useState(playerHandCards);
   const [spadesBroken, setSpadesBroken] = useState<boolean>(false);
+  const [wonTricks, setWonTricks] = useState<number>(0);
 
   const chooseThreeCards = () => {
     // Discard first three cards from the pool
@@ -117,20 +118,31 @@ export default function Game() {
 
   const choosePlayerCard = (index: number): void => {
     const playedCard = playerHand[index];
+    let tricksWon = wonTricks;
+
     if (!canPlayCard(playerHand, playedCard, pool[0].suit, spadesBroken)) {
       alert('You must follow suit!');
       return;
     }
+
     if (playerHand[index].suit === 'spades') {
       setSpadesBroken(true);
     }
+
     const trickCards = [pool[0], pool[1], pool[2], playedCard];
     const winningCard = determineTrickWinner(trickCards);
+    
     if (winningCard === playedCard) {
+      tricksWon++;
+      setWonTricks(tricksWon);
       alert('Player wins the trick!');
     }
+
     setPlayerHand(playerHand.filter((_, i) => i !== index));
-    chooseThreeCards();
+
+    if (playerHand.length > 1) {
+      chooseThreeCards();
+    }
   };
   
   useEffect(() => {
@@ -139,6 +151,7 @@ export default function Game() {
 
   return (
       <div>
+        <span>Tricks won: {wonTricks}</span>
         <div className="playingCards simpleCards">
           {flipped.map((isFlipped, index) => (
               <Card suit={pool[index]?.suit} rank={pool[index]?.rank} isFlipped={isFlipped} key={index} />
@@ -149,7 +162,6 @@ export default function Game() {
               <Card suit={card.suit} rank={card.rank} isFlipped={true} key={index} onClick={() => choosePlayerCard(index)} />
           ))}
         </div>
-        <button onClick={() => chooseThreeCards()}>Draw</button>
       </div>
   )
 }
