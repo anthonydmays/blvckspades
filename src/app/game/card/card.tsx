@@ -1,5 +1,6 @@
-import Image from "next/image";
-import { FunctionComponent, useEffect, useState } from "react";
+'use client';
+
+import { FunctionComponent } from "react";
 
 export type CardProps = {
     onClick?: () => void;
@@ -24,22 +25,13 @@ const getHtmlEntity = (suit?: string) => {
 };
 
 export const Card: FunctionComponent<CardProps> = ({rank, suit, isFlipped, onClick}) => {
-    const [rankValue, setRankValue] = useState<string>('');
-    const [suitValue, setSuitValue] = useState<string>('');
-
-    useEffect(() => {
-        setRankValue(rank ?? '');
-        setSuitValue(suit ?? '');
-    }, []);
-
-    suit = suit || '';
     return isFlipped ? (
-        <div onClick={onClick}>
-            <Image src={`/standard-deck/${suitValue}/${rankValue}${suitValue[0]}.png`} alt="Card back" width={158} height={220} />
+        <div className={"card rank-" + rank + " " + suit} onClick={onClick}>
+            <span className="rank">{rank}</span>
+            <span className="suit">{getHtmlEntity(suit)}</span>
         </div>
     ) : (
-        <div className="">
-            <Image src="/standard-deck/back.png" alt="Card back" width={158} height={220} />
+        <div className="card back">
             &nbsp;
         </div>
     );
