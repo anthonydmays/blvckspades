@@ -153,13 +153,14 @@ export default function Game() {
   }, []);
 
   return (
-      <div>
-        <span>Tricks won: {wonTricks}</span>
+      <div className="game-container">
+        <span className="stats">Tricks won: {wonTricks}</span>
         <div className="playingCards simpleCards">
           {flipped.map((isFlipped, index) => (
               <Card suit={pool[index]?.suit} rank={pool[index]?.rank} isFlipped={isFlipped} key={index} />
           ))}
         </div>
+        <span className="hand-label">Your hand</span>
         <div className="playingCards simpleCards rotateHand">
           {playerHand.map((card, index) => (
               <Card suit={card.suit} rank={card.rank} isFlipped={true} key={index} onClick={() => choosePlayerCard(index)} />
