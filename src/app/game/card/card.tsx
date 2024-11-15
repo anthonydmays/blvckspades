@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 
 export type CardProps = {
     onClick?: () => void;
@@ -24,10 +24,18 @@ const getHtmlEntity = (suit?: string) => {
 };
 
 export const Card: FunctionComponent<CardProps> = ({rank, suit, isFlipped, onClick}) => {
+    const [rankValue, setRankValue] = useState<string>('');
+    const [suitValue, setSuitValue] = useState<string>('');
+
+    useEffect(() => {
+        setRankValue(rank ?? '');
+        setSuitValue(suit ?? '');
+    }, []);
+
     suit = suit || '';
     return isFlipped ? (
         <div onClick={onClick}>
-            <Image src={`/standard-deck/${suit}/${rank}${suit[0]}.png`} alt="Card back" width={158} height={220} />
+            <Image src={`/standard-deck/${suitValue}/${rankValue}${suitValue[0]}.png`} alt="Card back" width={158} height={220} />
         </div>
     ) : (
         <div className="">
