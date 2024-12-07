@@ -1,5 +1,4 @@
-'use client';
-
+import Image from "next/image";
 import { FunctionComponent } from "react";
 
 export type CardProps = {
@@ -9,31 +8,11 @@ export type CardProps = {
     isFlipped?: boolean;
 }
 
-const getHtmlEntity = (suit?: string) => {
-    switch (suit) {
-        case 'spades':
-            return <>&spades;</>;
-        case 'hearts':
-            return <>&hearts;</>;
-        case 'diams':
-            return <>&diams;</>;
-        case 'clubs':
-            return <>&clubs;</>;
-        default:
-            return '';
-    }
-};
-
 export const Card: FunctionComponent<CardProps> = ({rank, suit, isFlipped, onClick}) => {
     return isFlipped ? (
-        <div className={"card rank-" + rank + " " + suit} onClick={onClick}>
-            <span className="rank">{rank}</span>
-            <span className="suit">{getHtmlEntity(suit)}</span>
-        </div>
+        <Image className={"card"} onClick={onClick} src={`/standard-deck/${suit}/${rank}${suit![0]}.png`} alt={`${rank} of ${suit}`} width={158} height={221} />
     ) : (
-        <div className="card back">
-            &nbsp;
-        </div>
+        <Image className={"card back"}  src={`/standard-deck/back.png`} alt={`${rank} of ${suit}`} width={158} height={221} />
     );
 }
 

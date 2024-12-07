@@ -1,24 +1,22 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-
+import { useState, useEffect } from 'react';
+ 
 import './game.css';
 import Card from './card/card';
 
-const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
-const SUITS: Suit[] = ['spades', 'hearts', 'diams', 'clubs'];
+export type Suit = 'spades' | 'hearts' | 'diams' | 'clubs';
 
-type Suit = 'spades' | 'hearts' | 'diams' | 'clubs';
-
-type Card = {
+export type Card = {
   suit: Suit;
   rank: string;
 };
 
-export default function Game() {
+export type GameProps = {
+  cards: Card[];
+};
 
-  let cards: Card[] = RANKS.flatMap(rank => SUITS.map(suit => ({ rank, suit })));
-  cards = cards.sort(() => Math.random() - 0.5);
+export const Game: React.FC<GameProps> = ({cards}) => {
   const playerHandCards = cards.slice(0, 5);
   cards = cards.slice(5);
 
@@ -169,3 +167,5 @@ export default function Game() {
       </div>
   )
 }
+
+export default Game;
